@@ -20,7 +20,7 @@ export const TEAMS: Record<string, Team> = {
     "ranking": 22
   },
   "CZE": {
-    "name": "Ch\u00e9quia",
+    "name": "Rep\u00fablica Tcheca",
     "flag": "\ud83c\udde8\ud83c\uddff",
     "code": "CZE",
     "ranking": 35
@@ -615,11 +615,11 @@ export const TEAM_NAMES: Record<string, Record<Language, string>> = {
   },
   "KOR": {
     "pt": "Coreia do Sul",
-    "en": "South Korea",
+    "en": "Korea Republic",
     "es": "Corea del Sur"
   },
   "CZE": {
-    "pt": "Ch\u00e9quia",
+    "pt": "Rep\u00fablica Tcheca",
     "en": "Czechia",
     "es": "Rep\u00fablica Checa"
   },
@@ -629,7 +629,7 @@ export const TEAM_NAMES: Record<string, Record<Language, string>> = {
     "es": "Canad\u00e1"
   },
   "BIH": {
-    "pt": "B\u00f3snia",
+    "pt": "B\u00f3snia e Herzegovina",
     "en": "Bosnia & Herzegovina",
     "es": "Bosnia y Herzegovina"
   },
