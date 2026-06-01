@@ -6,7 +6,7 @@
 Simule grupos, chaveamento, artilharia e muito mais — direto no seu navegador.
 
 [![Deploy](https://img.shields.io/badge/Deploy-Vercel-black?logo=vercel)](https://world-cup-2026-two.vercel.app/)
-[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev/)
+[![Vue](https://img.shields.io/badge/Vue-3.5-42B883?logo=vuedotjs)](https://vuejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-38BDF8?logo=tailwindcss)](https://tailwindcss.com/)
 
@@ -29,12 +29,26 @@ Simule grupos, chaveamento, artilharia e muito mais — direto no seu navegador.
 
 | Tecnologia | Versão |
 |---|---|
-| React | 19 |
+| Vue | 3.5 |
 | TypeScript | 5.8 |
 | Vite | 6 |
 | Tailwind CSS | v4 |
-| Lucide React | — |
-| Motion | 12 |
+| @lucide/vue | — |
+
+## 📁 Estrutura do projeto
+
+```
+src/
+  types/index.ts          # Interfaces TypeScript
+  data/constants.ts       # Times, grupos, traduções e dados estáticos
+  utils/index.ts          # Simulação, standings e bracket logic
+  components/
+    TeamFlag.vue           # Componente de bandeira + nome da seleção
+    KnockoutMatchItem.vue  # Card de partida do mata-mata
+  App.vue                 # App principal (Composition API + <script setup>)
+  main.ts                 # Ponto de entrada
+  index.css               # Estilos globais (Tailwind v4)
+```
 
 ## 🚀 Rodar localmente
 
@@ -64,14 +78,11 @@ Os arquivos serão gerados em `dist/`.
 
 ## 🌐 Deploy na Vercel
 
-O projeto está configurado para deploy automático na Vercel como SPA estático:
+Conecte o repositório no [dashboard da Vercel](https://vercel.com/) ou use o CLI:
 
 ```bash
-# Via Vercel CLI
 npx vercel --prod
 ```
-
-Ou conecte o repositório diretamente no [dashboard da Vercel](https://vercel.com/).
 
 ## ⚠️ Aviso
 
