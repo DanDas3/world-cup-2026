@@ -94,12 +94,25 @@ const knockoutTree = computed(() => {
   const r32Pairings = resolveR32Matchups(currentStandings.value, bestThirdPlaces.value)
 
   const r32Stadiums = [
-    'SoFi Stadium, Los Angeles', 'MetLife Stadium, New Jersey', 'BC Place, Vancouver',
-    'Estadio Azteca, Mexico City', 'AT&T Stadium, Dallas', 'Hard Rock Stadium, Miami',
-    'BMO Field, Toronto', 'Mercedes-Benz Stadium, Atlanta', 'Lumen Field, Seattle',
-    'NRG Stadium, Houston', "Levi's Stadium, San Francisco", 'Gillette Stadium, Boston',
-    'Lincoln Financial Field, Philadelphia', 'Arrowhead Stadium, Kansas City',
-    'Estadio BBVA, Monterrey', 'Estadio Akron, Guadalajara',
+    'SoFi Stadium, Los Angeles', 'Gillette Stadium, Boston', 'Estadio BBVA, Monterrey',
+    'NRG Stadium, Houston', 'AT&T Stadium, Dallas', 'MetLife Stadium, New Jersey',
+    'Estadio Azteca, Mexico City', 'Mercedes-Benz Stadium, Atlanta', 'Lumen Field, Seattle',
+    "Levi's Stadium, San Francisco", 'SoFi Stadium, Los Angeles', 'BMO Field, Toronto',
+    'BC Place, Vancouver', 'AT&T Stadium, Dallas', 'Hard Rock Stadium, Miami',
+    'Arrowhead Stadium, Kansas City',
+  ]
+  const r32Dates = [
+    '28/06/2026', '29/06/2026', '29/06/2026', '29/06/2026',
+    '30/06/2026', '30/06/2026', '30/06/2026', '01/07/2026',
+    '01/07/2026', '01/07/2026', '02/07/2026', '02/07/2026',
+    '03/07/2026', '03/07/2026', '03/07/2026', '03/07/2026',
+  ]
+  // Horários convertidos para Brasília (BRT, UTC-3) a partir do horário local oficial FIFA de cada estádio
+  const r32Times = [
+    '16:00', '17:30', '22:00', '14:00',
+    '14:00', '18:00', '22:00', '13:00',
+    '17:00', '21:00', '16:00', '20:00',
+    '00:00', '15:00', '19:00', '22:30',
   ]
 
   const emptyState = (): KnockoutMatchState => ({ homeScore: '', awayScore: '', penaltyWinner: null })
@@ -110,47 +123,55 @@ const knockoutTree = computed(() => {
       `R32-${i + 1}`, home, away,
       knockoutScores.value[`R32-${i + 1}`] ?? emptyState(),
       `1º Grupo`, `Classificado 3º`,
-      `${30 + (i % 5)}/06/2026`, r32Stadiums[i] ?? 'MetLife Stadium, New Jersey', '18:00',
+      r32Dates[i] ?? '28/06/2026', r32Stadiums[i] ?? 'MetLife Stadium, New Jersey', r32Times[i] ?? '18:00',
     )
   })
 
   const r16Stadiums = [
-    'NRG Stadium, Houston', 'Mercedes-Benz Stadium, Atlanta', 'Lumen Field, Seattle',
-    'BC Place, Vancouver', 'Gillette Stadium, Boston', 'Lincoln Financial Field, Philadelphia',
-    'SoFi Stadium, Los Angeles', 'AT&T Stadium, Dallas',
+    'NRG Stadium, Houston', 'Lincoln Financial Field, Philadelphia',
+    'MetLife Stadium, New Jersey', 'Estadio Azteca, Mexico City',
+    'AT&T Stadium, Dallas', 'Lumen Field, Seattle',
+    'Mercedes-Benz Stadium, Atlanta', 'BC Place, Vancouver',
   ]
+  const r16Dates = [
+    '04/07/2026', '04/07/2026', '05/07/2026', '05/07/2026',
+    '06/07/2026', '06/07/2026', '07/07/2026', '07/07/2026',
+  ]
+  const r16Times = ['14:00', '18:00', '17:00', '21:00', '16:00', '21:00', '13:00', '17:00']
   const resolvedR16: KnockoutSlot[] = Array.from({ length: 8 }, (_, i) =>
     resolveKnockoutSlot(
       `R16-${i + 1}`,
       resolvedR32[2 * i]?.winner, resolvedR32[2 * i + 1]?.winner,
       knockoutScores.value[`R16-${i + 1}`] ?? emptyState(),
       `Venc. R32 M${2 * i + 1}`, `Venc. R32 M${2 * i + 2}`,
-      `${5 + (i % 3)}/07/2026`, r16Stadiums[i] ?? 'MetLife Stadium, New Jersey',
+      r16Dates[i] ?? '04/07/2026', r16Stadiums[i] ?? 'MetLife Stadium, New Jersey', r16Times[i] ?? '18:00',
     ),
   )
 
   const qfStadiums = [
     'Gillette Stadium, Boston', 'SoFi Stadium, Los Angeles',
-    'Hard Rock Stadium, Miami', 'AT&T Stadium, Dallas',
+    'Hard Rock Stadium, Miami', 'Arrowhead Stadium, Kansas City',
   ]
+  const qfDates = ['09/07/2026', '10/07/2026', '11/07/2026', '11/07/2026']
+  const qfTimes = ['17:00', '16:00', '18:00', '22:00']
   const resolvedQF: KnockoutSlot[] = Array.from({ length: 4 }, (_, i) =>
     resolveKnockoutSlot(
       `QF-${i + 1}`,
       resolvedR16[2 * i]?.winner, resolvedR16[2 * i + 1]?.winner,
       knockoutScores.value[`QF-${i + 1}`] ?? emptyState(),
       `Venc. Oitavas M${2 * i + 1}`, `Venc. Oitavas M${2 * i + 2}`,
-      i % 2 === 0 ? '09/07/2026' : '10/07/2026', qfStadiums[i] ?? 'MetLife Stadium, New Jersey',
+      qfDates[i] ?? '09/07/2026', qfStadiums[i] ?? 'MetLife Stadium, New Jersey', qfTimes[i] ?? '18:00',
     ),
   )
 
-  const sfStadiums = ['Mercedes-Benz Stadium, Atlanta', 'AT&T Stadium, Dallas']
+  const sfStadiums = ['AT&T Stadium, Dallas', 'Mercedes-Benz Stadium, Atlanta']
   const resolvedSF: KnockoutSlot[] = Array.from({ length: 2 }, (_, i) =>
     resolveKnockoutSlot(
       `SF-${i + 1}`,
       resolvedQF[2 * i]?.winner, resolvedQF[2 * i + 1]?.winner,
       knockoutScores.value[`SF-${i + 1}`] ?? emptyState(),
       `Venc. Quartas M${2 * i + 1}`, `Venc. Quartas M${2 * i + 2}`,
-      i === 0 ? '14/07/2026' : '15/07/2026', sfStadiums[i],
+      i === 0 ? '14/07/2026' : '15/07/2026', sfStadiums[i], '16:00',
     ),
   )
 
@@ -158,7 +179,7 @@ const knockoutTree = computed(() => {
   const resolvedTP = resolveKnockoutSlot(
     'TP-1', resolvedSF[0]?.loser, resolvedSF[1]?.loser, tpState,
     'Perdedor Semifinal 1', 'Perdedor Semifinal 2',
-    '18/07/2026', 'Hard Rock Stadium, Miami', '17:00',
+    '18/07/2026', 'Hard Rock Stadium, Miami', '18:00',
   )
 
   const fState = knockoutScores.value['F-1'] ?? emptyState()
@@ -703,21 +724,23 @@ function deleteScorer(player: { name: string; team: string }) {
                 </div>
                 <div class="space-y-2.5">
                   <div v-for="m in groupMatches(groupLetter)" :key="m.id" class="bg-slate-50 border border-slate-100 rounded-2xl p-3 flex flex-col md:flex-row items-center justify-between gap-3 text-xs">
-                    <div class="flex-1 flex items-center justify-end gap-2.5 w-full md:w-auto">
-                      <TeamFlag :code="m.home" :lang="language" class="flex-row-reverse text-right" />
+                    <div class="flex-1 flex items-center justify-center md:justify-end gap-2.5 w-full md:w-auto">
+                      <TeamFlag :code="m.home" :lang="language" class="md:flex-row-reverse md:text-right" flag-class="hidden md:inline" />
                     </div>
                     <div class="flex items-center gap-2 w-full md:w-auto justify-center">
                       <div class="flex items-center gap-1.5 px-3 py-1 bg-white rounded-xl border border-slate-200/60 pl-4 w-full md:w-auto justify-center shadow-inner">
+                        <TeamFlag :code="m.home" :lang="language" hide-name class="md:hidden" />
                         <input type="number" min="0" :value="m.homeScore" @input="(e: Event) => updateGroupMatchScore(m.id, 'homeScore', (e.target as HTMLInputElement).value)" :aria-label="`Gols ${TEAMS[m.home]?.name || m.home}`" placeholder="-" class="w-11 h-8 text-center font-mono font-black text-base text-slate-800 bg-slate-100/60 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 border border-slate-200" />
                         <span aria-hidden="true" class="font-bold text-slate-400 text-sm">×</span>
                         <input type="number" min="0" :value="m.awayScore" @input="(e: Event) => updateGroupMatchScore(m.id, 'awayScore', (e.target as HTMLInputElement).value)" :aria-label="`Gols ${TEAMS[m.away]?.name || m.away}`" placeholder="-" class="w-11 h-8 text-center font-mono font-black text-base text-slate-800 bg-slate-100/60 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 border border-slate-200" />
+                        <TeamFlag :code="m.away" :lang="language" hide-name class="md:hidden" />
                       </div>
                       <button v-if="unsavedMatchIds[m.id]" @click="saveMatchScore(m.id)" class="flex items-center justify-center w-9 h-9 bg-amber-500 hover:bg-amber-600 text-slate-950 rounded-xl hover:scale-105 active:scale-95 shadow transition-all cursor-pointer animate-pulse shrink-0 font-bold" title="Salvar resultado">
                         <Save class="w-4 h-4 text-slate-950" :stroke-width="3" aria-hidden="true" />
                       </button>
                     </div>
-                    <div class="flex-1 flex items-center gap-2.5 w-full md:w-auto">
-                      <TeamFlag :code="m.away" :lang="language" />
+                    <div class="flex-1 flex items-center justify-center md:justify-start gap-2.5 w-full md:w-auto">
+                      <TeamFlag :code="m.away" :lang="language" flag-class="hidden md:inline" />
                     </div>
                     <div class="w-full md:w-auto md:min-w-[120px] text-center md:text-right flex md:flex-col justify-between items-center md:items-end text-[10px] text-slate-400 md:border-l md:border-slate-200/50 md:pl-3 pt-2 md:pt-0 border-t border-dashed md:border-t-0 border-slate-200/50">
                       <div class="flex items-center gap-1"><Calendar class="w-3 h-3 text-slate-400" aria-hidden="true" /><span>{{ m.date }} - {{ m.time }}</span></div>

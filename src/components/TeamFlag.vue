@@ -8,10 +8,12 @@ const props = withDefaults(defineProps<{
   code: string
   class?: string
   textClass?: string
+  flagClass?: string
   hideName?: boolean
   lang?: Language
 }>(), {
   textClass: 'font-semibold text-slate-800 dark:text-slate-100',
+  flagClass: '',
   hideName: false,
   lang: 'pt',
 })
@@ -25,7 +27,7 @@ const translatedName = computed(() => getTeamName(props.code, props.lang ?? 'pt'
     v-if="!team"
     :class="`inline-flex items-center gap-1.5 ${props.class ?? ''}`"
   >
-    <span class="text-lg" aria-hidden="true">🏳️</span>
+    <span :class="`text-lg ${flagClass}`" aria-hidden="true">🏳️</span>
     <span v-if="!hideName" :class="`${textClass} text-slate-400 capitalize`">
       {{ code || 'A definir' }}
     </span>
@@ -36,7 +38,7 @@ const translatedName = computed(() => getTeamName(props.code, props.lang ?? 'pt'
     :class="`inline-flex items-center gap-2 ${props.class ?? ''}`"
     :title="translatedName"
   >
-    <span class="text-xl shadow-sm leading-none" aria-hidden="true">{{ team.flag }}</span>
+    <span :class="`text-xl shadow-sm leading-none ${flagClass}`" aria-hidden="true">{{ team.flag }}</span>
     <span v-if="!hideName" :class="`truncate text-sm ${textClass}`">{{ translatedName }}</span>
   </span>
 </template>
